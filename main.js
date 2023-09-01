@@ -36,12 +36,19 @@ function check_sketch(){
         answer_holder = "";
         updateCanvas();
     }
+
+    if (drawn_sketch == sketch){
+        answer_holder="set";
+        score++;
+        document.getElementById('score').innerHTML = "Score: "+ score;
+    }
 }
 
 function setup(){
     canvas = createCanvas(300,300);
     canvas.center();
     background("white")
+    canvas.mouseReleased(classifyCanvas)
 }
 
 function draw(){
@@ -49,8 +56,7 @@ function draw(){
     if(answer_holder == "set"){
         score++;
         document.getElementById("score").innerHTML = "Score: "+ score;
-        
-}
+        }
 
 strokeWeight(13);
 stroke(0);
@@ -68,6 +74,7 @@ function gotResult(error, results){
         console.log(error);
     }
     console.log(results);
+    drawn_sketch = results[0].label;
     document.getElementById('label').innerHTML = 'Your Scetch: '+results[0].label;
 
     document.getElementById('confidence').innerHTML = 'Confidence: '+Math.round(results[0].confidence*100)+"%"
